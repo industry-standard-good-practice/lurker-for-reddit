@@ -1,0 +1,38 @@
+{
+	"name": "lurker",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"package": "svelte-kit package",
+		"preview": "svelte-kit preview",
+		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
+		"format": "prettier --write --plugin-search-dir=. ."
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "next",
+		"eslint": "^8.16.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"fractils": "^2.0.1",
+		"prettier": "^2.6.2",
+		"prettier-plugin-svelte": "^2.7.0",
+		"sass": "^1.52.3",
+		"svelte": "^3.44.0",
+		"svelte-copy-url-button": "^1.0.6",
+		"svelte-loading-spinners": "^0.1.7",
+		"svelte-preprocess": "^4.10.7",
+		"svelte-scrollto": "^0.2.0",
+		"vite": "^3.0.8"
+	},
+	"type": "module",
+	"dependencies": {
+		"@egjs/svelte-grid": "^1.11.0",
+		"bigger-picture": "^1.0.5",
+		"moment": "^2.29.3",
+		"snoowrap": "^1.23.0",
+		"svelte-inview": "^3.0.1",
+		"svelte-masonry-layout": "^0.0.7"
+	}
+}

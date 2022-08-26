@@ -1,0 +1,17 @@
+{
+	"short_name": "lurker",
+	"name": "lurker-for-reddit",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "android-chrome-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	],
+	"background_color": "#1c1b1f",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#1c1b1f",
+	"description": "For the introverts out there."
+}
