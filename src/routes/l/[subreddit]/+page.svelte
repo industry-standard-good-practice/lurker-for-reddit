@@ -735,7 +735,7 @@
 
 		&.topFeed
 			position: absolute
-			top: 0
+			top: 40px
 			left: 0
 
 		:global(.loadContent)
