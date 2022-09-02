@@ -78,8 +78,6 @@
 		if (e.detail.inView && results[results.length - 1].name !== null) {
 			lastResult = results.length > 0 ? '/' + results[results.length - 1].name : '';
 			fetchData();
-		} else {
-			setTimeout(reloadFeed(), 500);
 		}
 	};
 
