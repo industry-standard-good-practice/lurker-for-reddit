@@ -55,11 +55,20 @@
 	let promise;
 	let commentsVisible = false;
 	let uploadDate = new Date(created_utc * 1000);
+	let iframeURLs = ['clip.dubz.co', 'vsports.pt'];
 
 	const videos = document.querySelectorAll('video');
 	videos.forEach((video) => {
 		video.disableRemotePlayback;
 	});
+
+	const contains = (target, pattern) => {
+		let value = 0;
+		pattern.forEach((word) => {
+			value = value + target.includes(word);
+		});
+		return value === 1;
+	};
 
 	onMount(() => {
 		galleryImage = root.querySelectorAll('#galleryContainer > .galleryItem > a');
@@ -320,7 +329,7 @@
 
 			<!-- Image Logic -->
 
-			{#if post_hint === 'image' || domain === 'i.redd.it' || domain === 'i.imgur.com'}
+			{#if (post_hint === 'image' || domain === 'i.redd.it' || domain === 'i.imgur.com') && !url.includes('.gifv')}
 				<div class="imgContainer">
 					<a href={url} on:click={openImage} target="_blank">
 						<img src={url} alt="reddit post" class={over_18 ? 'nsfw' : ''} />
@@ -328,7 +337,7 @@
 				</div>
 			{:else if is_gallery}
 				<div id="galleryContainer" class="imgContainer" />
-			{:else if post_hint === 'rich:video' || domain == 'streamable.com'}
+			{:else if (post_hint === 'rich:video' || domain == 'streamable.com') && media}
 				<div class="videoContain {over_18 ? 'nsfw' : ''}">
 					{#if over_18}
 						<div
@@ -338,16 +347,34 @@
 					{/if}
 					{@html media.oembed.html}
 				</div>
-			{:else if (post_hint === 'link' && domain !== 'twitter.com') || (!post_hint && !is_self && !is_video && domain !== 'twitter.com') || (domain === 'twitter.com' && !media)}
-				<a class="imgContainer" href={url} target="_blank">
-					<img
-						src={preview ? preview.images[0].source.url : linkPreview}
-						alt="Thumbnail from website link"
-						in:scale={{ start: 0.75 }}
-						class={over_18 ? 'linkImage nsfw' : 'linkImage'}
-					/>
-					<span>{domain}</span>
-				</a>
+			{:else if contains(url, iframeURLs)}
+				<div class="videoContain {over_18 ? 'nsfw' : ''}">
+					<iframe src={url} frameborder="0" title="embedded post" />
+				</div>
+			{:else if url.includes('.gifv')}
+				<div class="imgContainer">
+					{#if iOS() == false}
+						<a href={url.replace('.gifv', '.mp4')} on:click={openVideo}>
+							<video
+								src={url.replace('.gifv', '.mp4')}
+								autoplay
+								loop
+								muted
+								class={over_18 ? 'nsfw' : ''}
+							/>
+						</a>
+					{:else}
+						<video
+							src={url.replace('.gifv', '.mp4')}
+							autoplay
+							loop
+							muted
+							playsinline
+							controls
+							class={over_18 ? 'nsfw' : ''}
+						/>
+					{/if}
+				</div>
 			{:else if post_hint === 'hosted:video' || is_video}
 				<div class="imgContainer">
 					{#if iOS() == false}
@@ -372,6 +399,16 @@
 						/>
 					{/if}
 				</div>
+			{:else if (post_hint === 'link' && domain !== 'twitter.com') || (!post_hint && !is_self && !is_video && domain !== 'twitter.com') || (domain === 'twitter.com' && !media)}
+				<a class="imgContainer" href={url} target="_blank">
+					<img
+						src={preview ? preview.images[0].source.url : linkPreview}
+						alt="Thumbnail from website link"
+						in:scale={{ start: 0.75 }}
+						class={over_18 ? 'linkImage nsfw' : 'linkImage'}
+					/>
+					<span>{domain}</span>
+				</a>
 			{:else if domain === 'twitter.com' && media}
 				<a class="twitterContain" href={media.oembed.url} target="_blank">
 					<img
@@ -483,7 +520,7 @@
 			max-height: 300px
 			display: block
 			border-radius: 10px
-			overflow: hidden
+			overflow: auto
 			background: var(--neutral-variant)
 
 			&.nsfw
