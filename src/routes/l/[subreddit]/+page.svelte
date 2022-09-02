@@ -10,7 +10,6 @@
 	import { flip } from 'svelte/animate';
 	import { MasonryGrid } from '@egjs/svelte-grid';
 	import { darkMode, sidebarVisible, pinnedSubs, filters } from '../../stores/+server';
-	import { browser } from '$app/env';
 	import profilePreview from '$lib/assets/profilePreview.png';
 
 	export let data;
@@ -38,8 +37,6 @@
 	let searchParams = subreddit ? subreddit : '';
 	let filterParams = "What's Hot";
 	let ready = false;
-
-	$: if (browser) document.body.classList.toggle('scrollDisabled', commentsOpen);
 
 	const fetchData = async () => {
 		const response = await fetch(
@@ -245,7 +242,7 @@
 			{/if}
 		</div>
 
-		<div class={$sidebarVisible ? 'feed sidebarVisible' : 'feed'}>
+		<div class={commentsOpen ? 'feed scrollDisabled' : 'feed'}>
 			{#if window.screen.width < 900}
 				<div class="header">
 					{#key subreddit}
@@ -325,11 +322,12 @@
 			{/if}
 
 			{#if results.length != 0}
-				<div use:inview={{}} on:change={reloadFeed} id="reloadFeed" />
-				<div class="loadingContainer">
-					<div class="loadContent">
-						<SpinLine size="40" color="var(--primary)" duration="4s" />
-						<span>Loading posts...</span>
+				<div use:inview={{}} on:change={reloadFeed}>
+					<div class="loadingContainer">
+						<div class="loadContent">
+							<SpinLine size="40" color="var(--primary)" duration="4s" />
+							<span>Loading posts...</span>
+						</div>
 					</div>
 				</div>
 			{/if}
@@ -387,18 +385,9 @@
 	:global(::selection)
 		background: var(--primary-container)
 
-	:global(body), :global(html)
+	:global(body)
 		background: var(--background)
 		color: var(--on-background)
-		height: 100vh
-		overflow-y: auto
-		overflow-x: hidden
-
-		&::-webkit-scrollbar
-			display: block
-
-	:global(.scrollDisabled)
-		overflow: hidden
 
 	:global(.material-symbols-rounded)
 		user-select: none
@@ -544,6 +533,9 @@
 		position: relative
 		display: flex
 		width: 100vw
+		height: 100vh
+		overflow: visible
+		padding-bottom: 0
 
 	input, select
 		background: var(--surface-variant)
@@ -596,12 +588,7 @@
 			justify-content: center
 
 	.leftContent
-		position: fixed
-		top: 0
-		left: 0
-		z-index: 20
 		width: 400px
-		height: 100vh
 		min-width: 400px
 		padding: 60px
 		display: flex
@@ -690,60 +677,47 @@
 		flex-direction: column
 		align-items: flex-start
 		gap: 8px
-		z-index: 20
+		z-index: 3
 
 		button
 			background: var(--surface-variant)
 			color: var(--on-background)
 
 	.feed
-		position: relative
-		height: fit-content
 		flex-grow: 1
+		height: 100%
 		padding: 60px
-		transition: padding .6s ease
+		overflow-y: auto
+		overflow-x: hidden
 
-		&.sidebarVisible
-			padding-left: 400px
+		&.scrollDisabled
+			overflow: hidden
 
 		.cardContainer
 			max-width: 100%
-			transition: all .8s ease
+			transition: all .8s cubic-bezier(0.440, 0.030, 0.000, 0.990)
 
 	:global(.masonGrid)
 		min-height: 110vh
-		display: flex
-		flex-direction: column
-		align-items: center
-		justify-content: flex-start
-
-	#reloadFeed
-		position: absolute
-		bottom: 500vh
-		z-index: 9
-		width: 100%
-		height: 100px
 
 	:global(.loadingContainer)
-		width: 100%
 		height: 80vh
 		display: flex
-		padding: 40px
+		padding: 24px
 		align-items: flex-start
-		justify-content: center
+		justify-content: flex-start
 		gap: 8px
 
 		&.topFeed
 			position: absolute
-			top: 40px
-			left: 0
+			z-index: -1
 
 		:global(.loadContent)
 			display: flex
 			align-items: center
 
 	@media (max-width: 900px)
-		:global(*), :global(html), :global(body)
+		:global(*)
 			-webkit-tap-highlight-color: transparent
 
 			&::-webkit-scrollbar
@@ -766,15 +740,14 @@
 			letter-spacing: .5px
 
 		.leftContent
+			position: fixed
 			background: var(--background)
 			border: 1px solid var(--neutral-40)
 			border-radius: 16px 16px 0 0
 			box-sizing: content-box
 			z-index: 9
 			width: 100vw
-			height: min-content
 			min-width: auto
-			top: auto
 			left: -1px
 			bottom: -1px
 			padding: 0
@@ -825,11 +798,7 @@
 		.feed
 			padding: 0
 			gap: 0
-			width: 100%
 			transition: padding .4s ease
-
-			&.sidebarVisible
-				padding: 0
 
 		.bottom
 			flex-direction: row

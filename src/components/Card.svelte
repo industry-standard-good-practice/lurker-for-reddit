@@ -127,6 +127,10 @@
 			: Math.sign(num) * Math.abs(num);
 	}
 
+	animateScroll.setGlobalOptions({
+		container: '.feed'
+	});
+
 	const closeComment = () => {
 		commentsVisible = false;
 		commentsOpen = false;
@@ -202,13 +206,14 @@
 <div
 	class={commentsVisible ? 'card commentsVisible' : `card ${cardClass}`}
 	in:scale|local={{
-		duration: 700,
+		duration: 500,
 		start: 0.8,
 		easing: cubicOut,
 		delay: index * 200
 	}}
-	out:fade|local={{
+	out:scale|local={{
 		duration: 500,
+		start: 0.8,
 		easing: cubicIn
 	}}
 	{id}
@@ -322,7 +327,12 @@
 			{#if post_hint === 'image' || domain === 'i.redd.it' || domain === 'i.imgur.com'}
 				<div class="imgContainer">
 					<a href={url} on:click={openImage} target="_blank">
-						<img src={url} alt="reddit post" class={over_18 ? 'nsfw' : ''} />
+						<img
+							src={url}
+							alt="reddit post"
+							class={over_18 ? 'nsfw' : ''}
+							loading="lazy"
+						/>
 					</a>
 				</div>
 			{:else if is_gallery}
@@ -344,6 +354,7 @@
 						alt="Thumbnail from website link"
 						in:scale={{ start: 0.75 }}
 						class={over_18 ? 'linkImage nsfw' : 'linkImage'}
+						loading="lazy"
 					/>
 					<span>{domain}</span>
 				</a>
@@ -424,7 +435,6 @@
 		border-radius: 24px
 		background: var(--background)
 		border: 2px solid var(--neutral-40)
-		z-index: 1
 		overflow: hidden
 		flex-shrink: 0
 		transition: opacity .4s ease
@@ -738,7 +748,7 @@
 		.card.disabled
 				opacity: .25
 				filter: blur(16px)
-				z-index: 0
+				z-index: -1
 
 	@media (max-width: 900px)
 		.card

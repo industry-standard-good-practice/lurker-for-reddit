@@ -15,15 +15,15 @@ export async function GET({ url }) {
 
 	let result;
 	if (currentFilter === null || currentFilter === "What's Hot") {
-		result = await r.getSubreddit(currentSubreddit).getHot({ limit: 60 });
+		result = await r.getSubreddit(currentSubreddit).getHot({ limit: 30 });
 	} else if (currentFilter === 'New') {
-		result = await r.getSubreddit(currentSubreddit).getNew({ limit: 60 });
+		result = await r.getSubreddit(currentSubreddit).getNew({ limit: 30 });
 	} else if (currentFilter === 'Top') {
-		result = await r.getSubreddit(currentSubreddit).getTop({ limit: 60, time: 'week' });
+		result = await r.getSubreddit(currentSubreddit).getTop({ limit: 30, time: 'week' });
 	} else if (currentFilter === 'Controversial') {
-		result = await r.getSubreddit(currentSubreddit).getControversial({ limit: 60 });
+		result = await r.getSubreddit(currentSubreddit).getControversial({ limit: 30 });
 	} else if (currentFilter === 'Rising') {
-		result = await r.getSubreddit(currentSubreddit).getRising({ limit: 60 });
+		result = await r.getSubreddit(currentSubreddit).getRising({ limit: 30 });
 	}
 	console.log(result);
 
