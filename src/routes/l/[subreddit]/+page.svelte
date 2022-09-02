@@ -733,11 +733,6 @@
 		justify-content: center
 		gap: 8px
 
-		&.topFeed
-			position: absolute
-			z-index: -1
-			width: auto
-
 		:global(.loadContent)
 			display: flex
 			align-items: center
