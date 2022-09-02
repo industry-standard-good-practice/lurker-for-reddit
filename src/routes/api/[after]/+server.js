@@ -15,21 +15,21 @@ export async function GET({ params, url }) {
 
 	let result;
 	if (currentFilter === null || currentFilter === "What's Hot") {
-		result = await r.getSubreddit(currentSubreddit).getHot({ limit: 30, after: params.after });
+		result = await r.getSubreddit(currentSubreddit).getHot({ limit: 60, after: params.after });
 	} else if (currentFilter === 'New') {
-		result = await r.getSubreddit(currentSubreddit).getNew({ limit: 30, after: params.after });
+		result = await r.getSubreddit(currentSubreddit).getNew({ limit: 60, after: params.after });
 	} else if (currentFilter === 'Top') {
 		result = await r
 			.getSubreddit(currentSubreddit)
-			.getTop({ limit: 30, time: 'week', after: params.after });
+			.getTop({ limit: 60, time: 'week', after: params.after });
 	} else if (currentFilter === 'Controversial') {
 		result = await r
 			.getSubreddit(currentSubreddit)
-			.getControversial({ limit: 30, after: params.after });
+			.getControversial({ limit: 60, after: params.after });
 	} else if (currentFilter === 'Rising') {
 		result = await r
 			.getSubreddit(currentSubreddit)
-			.getRising({ limit: 30, after: params.after });
+			.getRising({ limit: 60, after: params.after });
 	}
 	console.log(result);
 	console.log(result[result.length - 1].name);
