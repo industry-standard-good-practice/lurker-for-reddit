@@ -127,10 +127,6 @@
 			: Math.sign(num) * Math.abs(num);
 	}
 
-	animateScroll.setGlobalOptions({
-		container: '.feed'
-	});
-
 	const closeComment = () => {
 		commentsVisible = false;
 		commentsOpen = false;
@@ -206,7 +202,7 @@
 <div
 	class={commentsVisible ? 'card commentsVisible' : `card ${cardClass}`}
 	in:scale|local={{
-		duration: 500,
+		duration: 700,
 		start: 0.8,
 		easing: cubicOut,
 		delay: index * 200
@@ -429,6 +425,7 @@
 		border-radius: 24px
 		background: var(--background)
 		border: 2px solid var(--neutral-40)
+		z-index: 1
 		overflow: hidden
 		flex-shrink: 0
 		transition: opacity .4s ease
@@ -742,7 +739,7 @@
 		.card.disabled
 				opacity: .25
 				filter: blur(16px)
-				z-index: -1
+				z-index: 0
 
 	@media (max-width: 900px)
 		.card
