@@ -327,12 +327,7 @@
 			{#if post_hint === 'image' || domain === 'i.redd.it' || domain === 'i.imgur.com'}
 				<div class="imgContainer">
 					<a href={url} on:click={openImage} target="_blank">
-						<img
-							src={url}
-							alt="reddit post"
-							class={over_18 ? 'nsfw' : ''}
-							loading="lazy"
-						/>
+						<img src={url} alt="reddit post" class={over_18 ? 'nsfw' : ''} />
 					</a>
 				</div>
 			{:else if is_gallery}
@@ -354,7 +349,6 @@
 						alt="Thumbnail from website link"
 						in:scale={{ start: 0.75 }}
 						class={over_18 ? 'linkImage nsfw' : 'linkImage'}
-						loading="lazy"
 					/>
 					<span>{domain}</span>
 				</a>

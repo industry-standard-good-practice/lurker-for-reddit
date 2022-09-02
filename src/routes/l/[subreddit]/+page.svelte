@@ -695,7 +695,7 @@
 
 		.cardContainer
 			max-width: 100%
-			transition: all .8s cubic-bezier(0.440, 0.030, 0.000, 0.990)
+			transition: all .8s ease
 
 	:global(.masonGrid)
 		min-height: 110vh
