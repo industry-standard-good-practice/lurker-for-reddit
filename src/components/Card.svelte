@@ -73,12 +73,12 @@
 	onMount(() => {
 		galleryImage = root.querySelectorAll('#galleryContainer > .galleryItem > a');
 		galleryContainer = root.querySelector('#galleryContainer');
-		if (url.includes('streamja.com') && !url.includes('embed')) {
-			url = url.replace('.com/', '.com/embed/');
-		}
 	});
 
 	afterUpdate(() => {
+		if (url.includes('streamja.com') && !url.includes('embed')) {
+			url = url.replace('.com/', '.com/embed/');
+		}
 		if (is_gallery) {
 			let bpGallery = BiggerPicture({
 				target: galleryContainer
