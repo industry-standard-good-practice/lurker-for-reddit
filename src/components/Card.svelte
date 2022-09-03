@@ -55,7 +55,7 @@
 	let promise;
 	let commentsVisible = false;
 	let uploadDate = new Date(created_utc * 1000);
-	let iframeURLs = ['clip.dubz.co', 'vsports.pt'];
+	let iframeURLs = ['clip.dubz.co', 'vsports.pt', 'streamja.com'];
 
 	const videos = document.querySelectorAll('video');
 	videos.forEach((video) => {
@@ -73,6 +73,9 @@
 	onMount(() => {
 		galleryImage = root.querySelectorAll('#galleryContainer > .galleryItem > a');
 		galleryContainer = root.querySelector('#galleryContainer');
+		if (url.includes('streamja.com') && !url.includes('embed')) {
+			url = url.replace('.com/', '.com/embed/');
+		}
 	});
 
 	afterUpdate(() => {

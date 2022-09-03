@@ -5,7 +5,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"package": "svelte-kit package",
-		"preview": "svelte-kit preview",
+		"preview": "vite preview",
 		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
