@@ -39,9 +39,16 @@
 	let filterParams = "What's Hot";
 	let ready = false;
 
-	$: if (browser) document.body.classList.toggle('scrollDisabled', commentsOpen);
+	$: if (browser) {
+		window.dispatchEvent(new Event('resize'));
+		document.body.classList.toggle('scrollDisabled', commentsOpen);
+	}
 
 	const fetchData = async () => {
+		if (browser) {
+			window.dispatchEvent(new Event('resize'));
+			document.body.classList.toggle('scrollDisabled', commentsOpen);
+		}
 		const response = await fetch(
 			`/api${lastResult}/?subreddit=${searchParams}&filter=${filterParams}`
 		);
